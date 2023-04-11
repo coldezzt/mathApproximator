@@ -3,9 +3,11 @@
     internal class Program
     {
         // Задача номер 18 из файла
+        // Если в консоли ничего не выводится, а ресурсы компьютера активно поедаются
+        // попробуйте понизить точность или просто перезапустить программу.
         static void Main()
         {   
-            int w = 10, h = 20, accuracy = 8;
+            int w = 10, h = 20, accuracy = 6;
             var matrix = new double[w, h];
 
             #region Matrix fill
@@ -31,8 +33,9 @@
             #endregion Matrix fill
             PrintMatrix(matrix);
 
-            var approximatedMatrix = new GridCalculator().Calculate(matrix, accuracy);
-            PrintMatrix(approximatedMatrix);
+            var gridApproximator = new GridApproximator(matrix, accuracy);
+            gridApproximator.StartApproximation();
+            PrintMatrix(gridApproximator.Matrix);
         }
 
         static void PrintMatrix(double[,] matrix)
