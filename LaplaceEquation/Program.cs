@@ -1,15 +1,18 @@
-﻿namespace LaplaceEquation
+﻿using System.Diagnostics;
+
+namespace LaplaceEquation
 {
     internal class Program
     {
         // Задача номер 18 из файла
-        // Если в консоли ничего не выводится, а ресурсы компьютера активно поедаются
-        // попробуйте понизить точность или просто перезапустить программу.
         static void Main()
         {   
-            int w = 10, h = 20, accuracy = 6;
-            var matrix = new double[w, h];
+            // Ширина, высота, точность (знаки после запятой)
+            int w = 50, h = 100, accuracy = 28;
+            var matrix = new decimal[w, h];
 
+            // Заполнение матрицы (моими функциями)
+            // В будущем сделаю рандомным заполнением (если возможно???)
             #region Matrix fill
             for (int i = 0; i < w; i++)
             {
@@ -31,22 +34,20 @@
                 matrix[i, h - 1] = Math.Round(matrix[0, h - 1] - i * ((matrix[0, h - 1] - matrix[w - 1, h - 1]) / w), 3);
             }
             #endregion Matrix fill
-            PrintMatrix(matrix);
 
             var gridApproximator = new GridApproximator(matrix, accuracy);
             gridApproximator.StartApproximation();
-            PrintMatrix(gridApproximator.Matrix);
-        }
 
-        static void PrintMatrix(double[,] matrix)
-        {
-            for (int i = 0; i < matrix.GetLength(0); i++)
+            using (var sw = new StreamWriter("..\\..\\..\\results.txt"))
             {
-                for (int j = 0; j < matrix.GetLength(1); j++)
+                for (int i = 0; i < w; i++)
                 {
-                    Console.Write($"{matrix[i, j]} ");
+                    for (int j = 0; j < h - 1; j++)
+                    {
+                        sw.WriteLine($"{i} {j} {gridApproximator.Matrix[i, j]}");
+                    }
                 }
-                Console.WriteLine();
+                sw.WriteLine($"{w - 1} {h - 1} {gridApproximator.Matrix[w - 1, h - 1]}");
             }
         }
     }
