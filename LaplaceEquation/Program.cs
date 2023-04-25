@@ -1,18 +1,15 @@
-﻿using System.Diagnostics;
-
-namespace LaplaceEquation
+﻿namespace LaplaceEquation
 {
     internal class Program
     {
         // Задача номер 18 из файла
         static void Main()
-        {   
+        {
             // Ширина, высота, точность (знаки после запятой)
-            int w = 50, h = 100, accuracy = 28;
+            int w = 100, h = 200, accuracy = 1;
             var matrix = new decimal[w, h];
 
             // Заполнение матрицы (моими функциями)
-            // В будущем сделаю рандомным заполнением (если возможно???)
             #region Matrix fill
             for (int i = 0; i < w; i++)
             {
@@ -34,21 +31,10 @@ namespace LaplaceEquation
                 matrix[i, h - 1] = Math.Round(matrix[0, h - 1] - i * ((matrix[0, h - 1] - matrix[w - 1, h - 1]) / w), 3);
             }
             #endregion Matrix fill
-
+            
             var gridApproximator = new GridApproximator(matrix, accuracy);
             gridApproximator.StartApproximation();
-
-            using (var sw = new StreamWriter("..\\..\\..\\results.txt"))
-            {
-                for (int i = 0; i < w; i++)
-                {
-                    for (int j = 0; j < h - 1; j++)
-                    {
-                        sw.WriteLine($"{i} {j} {gridApproximator.Matrix[i, j]}");
-                    }
-                }
-                sw.WriteLine($"{w - 1} {h - 1} {gridApproximator.Matrix[w - 1, h - 1]}");
-            }
+            gridApproximator.ShowResult(@"..\..\..\..\gnuplot\gnuplot.exe");
         }
     }
 }

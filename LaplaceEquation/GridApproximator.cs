@@ -1,4 +1,5 @@
-﻿using System.Numerics;
+﻿using System.Diagnostics;
+using System.Dynamic;
 
 namespace LaplaceEquation;
 
@@ -7,6 +8,11 @@ public class GridApproximator
     private CancellationTokenSource _cancellationTokenSource = new CancellationTokenSource();
     private int _accuracyDigits;
     private decimal _accuracy = 1M;
+    private string pathToResult = "";
+
+    private int _width { get; init; }
+    private int _height { get; init; }
+
     public decimal[,] Matrix { get; init; }
     public int Accuracy 
     { 
@@ -17,7 +23,7 @@ public class GridApproximator
                 throw new ArgumentException("Accuracy can't be less than 0.");
 
             else if (value > 28)
-                throw new ArgumentException("It is impossible to be accurate beyond 28 decimal digits.");
+                throw new ArgumentException("Accurate can't be beyond 28 decimal digits.");
 
             else
             {
@@ -28,15 +34,18 @@ public class GridApproximator
         }
     }
 
-    private int _width => Matrix.GetLength(0);
-    private int _height => Matrix.GetLength(1);
-
     public GridApproximator(decimal[,] matrix, int accuracy)
     {
         Matrix = matrix;
+        _width = Matrix.GetLength(0);
+        _height = Matrix.GetLength(1);
+
         Accuracy = accuracy;
     }
 
+    /// <summary>
+    /// Запускает приближение.
+    /// </summary>
     public void StartApproximation()
     {
         ThreadPool.GetMinThreads(out int threadsCount, out _);
@@ -57,12 +66,51 @@ public class GridApproximator
                 break;
         }
 
-        // Ждём старта завершения работы
-        while (!ct.IsCancellationRequested) ;
-
         // Ждём конца завершения работы
         for (int i = 0; i < tasks.Count; i++)
             tasks[i].Wait();
+    }
+
+    /// <summary>
+    /// Сохраняет результаты. Принимает на вход путь к файлу, в который нужно сохранить данные.<br/>
+    /// Сохраняет путь к файлу для отображения его в функции ShowResult.
+    /// </summary>
+    /// <param name="path">Путь до файла.</param>
+    public void SaveResult(string path)
+    {
+        using (var sw = new StreamWriter(path))
+        {
+            pathToResult = path;
+            for (int i = 0; i < _width; i++)
+            {
+                for (int j = 0; j < _height; j++)
+                {
+                    sw.WriteLine($"{i} {j} {Matrix[i, j]}");
+                }
+            }
+        }
+    }
+    
+    /// <summary>
+    /// Показывает обработанный график по пути указанному в функции SaveResult.
+    /// </summary>
+    /// <param name="pathToGnuplot">Путь до gnuplot.</param>
+    /// <param name="scriptPath">Путь до скрипта.</param>
+    public void ShowResult(string pathToGnuplot, string scriptPath = @"..\..\..\gnuplot_script.p")
+    {
+        // Если результаты не были сначала сохранены то ничего не делаем (надо довести до ума)
+        if (pathToResult == string.Empty)
+            return;
+
+        // Создание скрипта для gnuplot
+        using (var sw = new StreamWriter(scriptPath))
+        {
+            sw.WriteLine($@"splot '{pathToResult}'");
+            sw.WriteLine("print 'Press enter to exit.'");
+            sw.WriteLine("pause -1");
+        }
+
+        Process.Start(pathToGnuplot, scriptPath);
     }
 
     private void _partUpdate(int startIndex, int length, CancellationToken cancellationToken)
@@ -78,7 +126,7 @@ public class GridApproximator
                  * изначальной поверхностью.
                  */
         
-                if (i != 0 && i != _width - 1)
+                if (i != 0 && i < _width - 1)
                 {
                     for (int j = 1; j < _height - 1; j++)
                     {
@@ -93,7 +141,6 @@ public class GridApproximator
             }
         }
     }
-
     private bool _isAccuracy(CancellationToken cancellationToken)
     {
         // Крит точка
@@ -110,8 +157,7 @@ public class GridApproximator
                         var current = Matrix[i, j];
                         var expected = _getNeighborAverage(i, j);
 
-                        // Проверка на совпадение
-                        if (Math.Abs(expected - current).CompareTo(_accuracy) > -1)
+                        if (Math.Abs(expected - current).CompareTo(_accuracy) == 1)
                             return false;
                     }
                 }
@@ -122,10 +168,8 @@ public class GridApproximator
             return true;
         }
     }
-
     private decimal _getNeighborAverage(int i, int j)
     {
-        // Средние среди 4 значений
         return (Matrix[i - 1, j] + Matrix[i, j - 1] + Matrix[i + 1, j] + Matrix[i, j + 1]) / 4;
     }
 }
