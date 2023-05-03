@@ -40,9 +40,9 @@
             <Button
                 Style="{StaticResource buttonStyle}"
                 
-                Text="Инструкция"
+                Text="Настройки"
                 
-                Clicked="ToInstructionsPage" 
+                Clicked="ToSettingsPage"
                 
                 WidthRequest="300"
                 HeightRequest="50"/>

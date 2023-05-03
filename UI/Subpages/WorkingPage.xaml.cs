@@ -1,12 +1,14 @@
 using CommunityToolkit.Maui.Extensions;
 using CommunityToolkit.Maui.Storage;
-using System.Reflection;
 
 namespace UI;
 
 public partial class WorkingPage : ContentPage
 {
+	// TODO Надо запись и чтение из файла сделать,
+	// только не понимаю как предоставить разрешение
 	static string configString = "";
+
 	List<string> possibleExtensions = new List<string>();
 	bool hasUnsavedChanges = false;
 	Action DataChanged;
@@ -24,8 +26,7 @@ public partial class WorkingPage : ContentPage
 		_checkConfiguration();
 	}
 
-
-	public async void ToPreviousPage(object s, EventArgs e)
+	public async void ToPreviousPage(object sender, EventArgs e)
 	{
 		var accepted = true;
 		if (hasUnsavedChanges)
@@ -37,22 +38,25 @@ public partial class WorkingPage : ContentPage
         await Navigation.PopAsync();
     }
 
-    public async void GetDataPathFromFilePicker(object s, EventArgs e)
+    public async void GetPathToDataFromFilePicker(object sender, EventArgs e)
 	{
-		string result = null;
+        string result = null;
 		try
 		{
 			result = (await FilePicker.PickAsync(default)).FullPath;
 		}
-		catch { }
+		catch 
+		{
+			return;
+		}
 
 		dataPathEntry.Text = result;
 		DataChanged();
 	}
 
-	public void GetDataPathFromEntryField(object s, EventArgs e)
+	public void GetPathToDataFromEntryField(object sender, EventArgs e)
 	{
-		if (s is Entry entry)
+		if (sender is Entry entry)
 		{
 			if (entry.Text == "" || entry.Text == null)
 			{ }
@@ -74,7 +78,7 @@ public partial class WorkingPage : ContentPage
 		}
 	}
 
-	public async void PathToResults(object s, EventArgs e)
+	public async void PathToResults(object sender, EventArgs e)
 	{
 		/* 
 		 * Для сохранения файлов можно использовать эту конструкцию
@@ -85,7 +89,7 @@ public partial class WorkingPage : ContentPage
 		}
 		*/
 		string path = string.Empty;
-		if (s is Button)
+		if (sender is Button)
 		{
 			try
 			{
@@ -96,25 +100,37 @@ public partial class WorkingPage : ContentPage
 			}
 			catch { }
 		}
-		if (s is Entry entry)
+		if (sender is Entry entry)
 			path = entry.Text;
 		
 		dataResultsPath.Text = path;
 		DataChanged();
     }
 
-    public void OnSliderValueChanged(object s, ValueChangedEventArgs e)
+    public void OnSliderValueChanged(object sender, ValueChangedEventArgs e)
     {
 		accuracyHeader.Text = $"Точность (знаки после запятой): {Math.Round(e.NewValue)}";
         DataChanged();
     }
 
-    public async void StartAlgorithm(object s, EventArgs e)
+    public async void StartAlgorithm(object sender, EventArgs e)
 	{
-		await DisplayAlert("Куда разогнался?", "Тут ничего нет пока)", "Пойти поспать(");
+		if (dataPathWarnLabel.Opacity == 0 
+			&& dataPathEntry.Text != string.Empty
+			&& dataPathEntry.Text != null)
+		{
+			SaveAlgorithmSettings(new object(), new EventArgs());
+			await Navigation.PushAsync(
+                new AlgorithmPage(dataPathEntry.Text,
+                                  dataResultsPath.Text,
+								  (int)Math.Round(dataAccuracy.Value)
+								  ));
+		}
+		else
+			await DisplayAlert("Неверные данные", "Одно или несколько полей заполнено неверно, проверьте корректность вводимых данных и попробуйте ещё раз", "Назад");
 	}
 
-	public async void SaveAlgorithmSettings(object s, EventArgs e)
+	public async void SaveAlgorithmSettings(object sender, EventArgs e)
     {
 		/*
         var path = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
@@ -128,7 +144,7 @@ public partial class WorkingPage : ContentPage
 
 		hasUnsavedChanges = false;
 
-		if (s is Button btn)
+		if (sender is Button btn)
 		{
 			btn.Text = "Сохранено!";
             await btn.BackgroundColorTo(Color.FromArgb("0fd44a"), 1, 100);
@@ -149,6 +165,7 @@ public partial class WorkingPage : ContentPage
 			dataAccuracy.Value = int.Parse(config[2]);
 		}
 		*/
+
         if (configString != string.Empty)
         {
             string[] config = configString.Split(';');
@@ -156,14 +173,6 @@ public partial class WorkingPage : ContentPage
             dataResultsPath.Text = config[1];
             dataAccuracy.Value = int.Parse(config[2]);
         }
-    }
-
-    private async Task<int> _buttonClicked(Button btn)
-    {
-        await btn.BackgroundColorTo(Color.FromArgb("666666"), 1, 100);
-        await btn.BackgroundColorTo(Color.FromArgb("FFFFFF"), 1, 100);
-		btn.BackgroundColor = Color.FromArgb("FFFFFF");
-        return 0;
     }
 
 	private List<string> _getPossibleExtensions()

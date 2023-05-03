@@ -9,21 +9,26 @@ namespace UI
             InitializeComponent();
         }
 
-        async public void ToWorkingPage(object s, EventArgs e)
+        async public void ToWorkingPage(object sender, EventArgs e)
         {
-            await ButtonClicked(s as Button);
+            await ButtonClicked(sender as Button);
             await Navigation.PushAsync(new WorkingPage());
         }
 
-        async public void ToInstructionsPage(object s, EventArgs e)
+        async public void ToInstructionsPage(object sender, EventArgs e)
         {
-            await ButtonClicked(s as Button);
+            await ButtonClicked(sender as Button);
             await Navigation.PushAsync(new InstructionsPage());
         }
-
-        async public void Quit(object s, EventArgs e)
+        async public void ToSettingsPage(object sender, EventArgs e)
         {
-            await ButtonClicked(s as Button);
+            await ButtonClicked(sender as Button);
+            await Navigation.PushAsync(new SettingsPage());
+        }
+
+        async public void Quit(object sender, EventArgs e)
+        {
+            await ButtonClicked(sender as Button);
             var accepted = await DisplayAlert("Подтвердить действие", "Вы уверены что хотите выйти?", "Да", "Нет");
             if (accepted)
                 App.Current.Quit();

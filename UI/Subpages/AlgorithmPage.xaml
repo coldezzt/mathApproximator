@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="UI.AlgorithmPage"
+             NavigationPage.HasBackButton="False"
+             NavigationPage.HasNavigationBar="False">
+
+    <ContentPage.Resources>
+        <Style x:Key="buttonStyle" TargetType="Button">
+            <Setter Property="TextColor" Value="Black" />
+            <Setter Property="FontSize" Value="14" />
+            <Setter Property="CornerRadius" Value="10" />
+            <Setter Property="WidthRequest" Value="150" />
+            <Setter Property="HeightRequest" Value="40" />
+        </Style>
+    </ContentPage.Resources>
+
+    <ScrollView>
+
+        <AbsoluteLayout Margin="0, 20">
+
+            <Button
+                Style="{StaticResource buttonStyle}"
+                Text="Назад"
+            
+                Clicked="ToPreviousPage" 
+                AbsoluteLayout.LayoutBounds="10, 10, 80, 50"/>
+
+            <Frame
+                x:Name="MainFrame"
+                BorderColor="White"
+                CornerRadius="10"
+                AbsoluteLayout.LayoutBounds="0.5, 0.5, Autosize, Autosize"
+                AbsoluteLayout.LayoutFlags="PositionProportional"
+                WidthRequest="1000"
+                HeightRequest="1000">
+
+                <VerticalStackLayout Spacing="10">
+
+                    <Label 
+                        Text="Результаты"
+                        Margin="0, 0, 0, 20"
+                        FontSize="28" 
+                        HorizontalOptions="Center" />
+
+                </VerticalStackLayout>
+
+            </Frame>
+
+        </AbsoluteLayout>
+    </ScrollView>
+</ContentPage>

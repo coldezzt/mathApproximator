@@ -7,7 +7,7 @@ public partial class InstructionsPage : ContentPage
 		InitializeComponent();
 	}
 
-	async public void ToPreviousPage(object s, EventArgs e)
+	async public void ToPreviousPage(object sender, EventArgs e)
 	{
 		await Navigation.PopAsync();
 	}
