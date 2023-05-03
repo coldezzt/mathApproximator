@@ -1,0 +1,63 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="UI.MainPage"
+             NavigationPage.HasNavigationBar="False">
+
+    <ContentPage.Resources>
+        <Style x:Key="buttonStyle" TargetType="Button">
+            <Setter Property="TextColor" Value="Black" />
+            <Setter Property="CornerRadius" Value="10" />
+            <Setter Property="FontSize" Value="20" />
+            <Setter Property="FontAttributes" Value="Bold" />
+        </Style>
+    </ContentPage.Resources>
+
+    <ScrollView>
+        <VerticalStackLayout
+            Spacing="30"
+            Padding="0, 50, 0, 0"
+            HorizontalOptions="Center"
+            VerticalOptions="Center"
+            Margin="20">
+
+            <Label
+                Text="Интерфейс для математических программ"
+                SemanticProperties.HeadingLevel="Level1"
+                FontSize="36"
+                FontAttributes="Bold" />
+
+            <Button
+                Style="{StaticResource buttonStyle}"
+                
+                Text="Начать работу"
+                
+                Clicked="ToWorkingPage"
+                
+                WidthRequest="300"
+                HeightRequest="50"/>
+
+            <Button
+                Style="{StaticResource buttonStyle}"
+                
+                Text="Инструкция"
+                
+                Clicked="ToInstructionsPage" 
+                
+                WidthRequest="300"
+                HeightRequest="50"/>
+
+            <Button
+                Style="{StaticResource buttonStyle}"
+                
+                Text="Выйти"
+                
+                Clicked="Quit"
+   
+                WidthRequest="300"
+                HeightRequest="50"/>
+
+        </VerticalStackLayout>
+    </ScrollView>
+
+</ContentPage>
