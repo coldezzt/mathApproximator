@@ -15,11 +15,6 @@ namespace UI
             await Navigation.PushAsync(new WorkingPage());
         }
 
-        async public void ToInstructionsPage(object sender, EventArgs e)
-        {
-            await ButtonClicked(sender as Button);
-            await Navigation.PushAsync(new InstructionsPage());
-        }
         async public void ToSettingsPage(object sender, EventArgs e)
         {
             await ButtonClicked(sender as Button);

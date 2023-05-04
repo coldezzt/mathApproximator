@@ -42,7 +42,7 @@
                 
                 Text="Настройки"
                 
-                Clicked="ToSettingsPage"
+                Clicked="ToSettingsPage"    
                 
                 WidthRequest="300"
                 HeightRequest="50"/>

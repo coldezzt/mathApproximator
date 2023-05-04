@@ -1,20 +1,17 @@
-﻿namespace LaplaceEquation;
+﻿using Contract;
 
-/// <summary>
-/// Достраивает поверхность внутри по краям полученной матрицы.
-/// </summary>
-public static class AreaSurfaceApproximator
+namespace LaplaceEquation;
+
+public class AreaSurfaceApproximator : IApproximator
 {
-    static private CancellationTokenSource _cancellationTokenSource = new CancellationTokenSource();
-    static private int accuracyDigits = 0;
-    static private int width = 0;
-    static private int height = 0;
-    static private decimal minDeviation = 1M;
-    static private decimal[,] resultMatrix = new decimal[0, 0];
+    private CancellationTokenSource _cancellationTokenSource = new CancellationTokenSource();
+    private int accuracyDigits = 0;
+    private int width = 0;
+    private int height = 0;
+    private decimal minDeviation = 1M;
+    private decimal[,] resultMatrix = new decimal[0, 0];
 
-    /// <param name="matrix">Матрица для приближения</param>
-    /// <param name="accuracy">Точность приближения</param>
-    static public decimal[,] Approximate(decimal[,] matrix, int accuracy)
+    public decimal[,] Approximate(decimal[,] matrix, int accuracy)
     {
         _initialize(matrix, accuracy);
 
@@ -41,7 +38,7 @@ public static class AreaSurfaceApproximator
         return resultMatrix!;
     }
     
-    static private void _initialize(decimal[,] matrix, int accuracy)
+    private void _initialize(decimal[,] matrix, int accuracy)
     {
         if (matrix == null)
             throw new ArgumentNullException(nameof(matrix));
@@ -61,7 +58,7 @@ public static class AreaSurfaceApproximator
         for (int i = 0; i < accuracy; i++)
             minDeviation *= 0.1M;
     }
-    static private void _partUpdate(int startIndex, int length, CancellationToken cancellationToken)
+    private void _partUpdate(int startIndex, int length, CancellationToken cancellationToken)
     {
         while (!_isAccuracy(cancellationToken))
         {
@@ -78,7 +75,7 @@ public static class AreaSurfaceApproximator
             }
         }
     }
-    static private bool _isAccuracy(CancellationToken cancellationToken)
+    private bool _isAccuracy(CancellationToken cancellationToken)
     {
         var locker = new object();
         lock (locker)
@@ -102,7 +99,7 @@ public static class AreaSurfaceApproximator
             return true;
         }
     }
-    static private decimal _getNeighborAverage(int i, int j)
+    private decimal _getNeighborAverage(int i, int j)
     {
         return (resultMatrix[i - 1, j] + resultMatrix[i, j - 1] + resultMatrix[i + 1, j] + resultMatrix[i, j + 1]) / 4;
     }

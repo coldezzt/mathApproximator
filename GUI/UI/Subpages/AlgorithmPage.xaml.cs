@@ -29,10 +29,6 @@ public partial class AlgorithmPage : ContentPage
 
     private void UploadLibrary(string libraryPath)
 	{
-		Assembly assembly = Assembly.LoadFrom(libraryPath);
-
-		Type[] approximatorType = assembly.GetTypes();
-
-		//TODO Implement
+		
 	}
 }

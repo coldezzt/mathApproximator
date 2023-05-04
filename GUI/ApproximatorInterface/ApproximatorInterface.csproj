@@ -1,0 +1,14 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net7.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <PackageId>ApproximatorContract</PackageId>
+    <Title>Approximator interface</Title>
+    <Authors>Ruzan Valeev</Authors>
+    <Description>This interface should be realizated for correct working in my Graphical interface</Description>
+    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+  </PropertyGroup>
+
+</Project>
