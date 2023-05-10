@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="UI.AlgorithmConfigurationPage"
+             NavigationPage.HasNavigationBar="False"
+             NavigationPage.HasBackButton="False"
+             Appearing="UploadSettings"
+             Disappearing="UpdateSettings">
+
+    <ScrollView>
+        
+        <AbsoluteLayout Margin="0, 20">
+            
+            <Button
+                Text="Назад"
+                Clicked="ToPreviousPage" 
+                AbsoluteLayout.LayoutBounds="-20, 10, 150, 50"/>
+
+            <Frame
+                x:Name="MainFrame"
+                CornerRadius="10"
+                AbsoluteLayout.LayoutBounds="0.5, 0.5, Autosize, Autosize"
+                AbsoluteLayout.LayoutFlags="PositionProportional">
+
+                <VerticalStackLayout Spacing="10">
+
+                    <Label 
+                        Text="Настройка конфигурации алгоритма"
+                        Margin="0, 0, 0, 20"
+                        FontSize="28" 
+                        HorizontalOptions="Center" />
+
+                    <VerticalStackLayout Spacing="10">
+
+                        <Label
+                            Text="Укажите путь к библиотеке-интерполятору:"
+                            FontSize="18"/>
+
+                        <HorizontalStackLayout Spacing="20">
+
+                            <Frame Style="{StaticResource entryFrame}">
+                                <Entry
+                                    x:Name="libraryPathEntry"
+                                    TextChanged="GetPathToLibraryFromEntryField"
+                                    WidthRequest="500"
+                                    FontSize="14"
+                                    Placeholder="C:\folder\...\library.dll"/>
+                            </Frame>
+
+                            <Button                                
+                                x:Name="libraryPathButton"
+                                Text="Выбрать файл"
+                                Clicked="GetPathToLibraryFromFilePicker" />
+
+                        </HorizontalStackLayout>
+
+                        <Label
+                            x:Name="libraryPathWarnLabel"
+                            Text="Пожалуйста, введите корректный путь до файла"
+                            TextColor="Red"
+                            Opacity="0"
+                            FontSize="14"/>
+
+                    </VerticalStackLayout>
+
+                    <VerticalStackLayout Spacing="10">
+
+                        <Label
+                            Text="Укажите путь к файлу с данными:"
+                            FontSize="18"/>
+
+                        <HorizontalStackLayout Spacing="20">
+
+                            <Frame Style="{StaticResource entryFrame}">
+                                <Entry
+                                    x:Name="dataPathEntry"
+                                    TextChanged="GetPathToDataFromEntryField"
+                                    WidthRequest="500"
+                                    FontSize="14"
+                                    Placeholder="C:\folder\...\data.txt"/>
+                            </Frame>
+
+                            <Button
+                                x:Name="dataPathButton"
+                                Text="Выбрать файл"
+                                Clicked="GetPathToDataFromFilePicker" />
+
+                        </HorizontalStackLayout>
+                    
+                        <Label
+                            x:Name="dataPathWarnLabel"
+                            Text="Пожалуйста, введите корректный путь до файла"
+                            TextColor="Red"
+                            Opacity="0"
+                            FontSize="14"/>
+
+                    </VerticalStackLayout>
+
+                    <VerticalStackLayout Spacing="10">
+
+                        <Label
+                            FontSize="18">
+                            <Label.Text>
+Укажите путь для сохранения результатов.
+Оставьте пустым для сохранения в папку с исходными данными.
+                            </Label.Text>
+                        </Label>
+
+                        <HorizontalStackLayout Spacing="20">
+
+                            <Frame Style="{StaticResource entryFrame}">
+                                <Entry
+                                    x:Name="dataResultsPath"
+                                    TextChanged="ChangePathToResults"
+                                    WidthRequest="500"
+                                    FontSize="14"
+                                    Placeholder="C:\folder\...\Results"
+                                    IsTextPredictionEnabled="True"/>
+                            </Frame>
+
+                            <Button
+                                Text="Выбрать папку"
+                                Clicked="ChangePathToResults" />
+
+                        </HorizontalStackLayout>
+                    
+                    </VerticalStackLayout>
+
+                    <VerticalStackLayout 
+                        Spacing="10"
+                        Margin="0, 20">
+                        
+                        <Label 
+                            x:Name="accuracyHeader"
+                            Text="Точность (знаки после запятой): 1"
+                            FontSize="18" />
+
+                        <Slider 
+                            x:Name ="dataAccuracySlider"
+                            WidthRequest="600"
+                            Minimum ="1" 
+                            Maximum="28" 
+                            Value="1" 
+                            ValueChanged="ChangeAlgorithmAccuracy"
+                            MinimumTrackColor="OrangeRed" 
+                            MaximumTrackColor="DarkRed" 
+                            ThumbColor="OrangeRed" />
+                    
+                    </VerticalStackLayout>
+
+                    <HorizontalStackLayout 
+                        Spacing="50"
+                        HorizontalOptions="Center">
+                    
+                        <Button
+                            Text="Запустить!"
+                            Clicked="StartAlgorithm"
+                            WidthRequest="150"
+                            HeightRequest="40"/>
+                    
+                        <Button
+                            x:Name="saveButton"
+                            Text="Сохранить"
+                            Clicked="SaveAlgorithmSettings" />
+                    
+                    </HorizontalStackLayout>
+                
+                </VerticalStackLayout>
+            
+            </Frame>
+
+        </AbsoluteLayout>
+    </ScrollView>
+</ContentPage>

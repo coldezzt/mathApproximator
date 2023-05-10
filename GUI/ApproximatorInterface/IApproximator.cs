@@ -1,4 +1,4 @@
-﻿namespace Contract;
+﻿namespace ApproximatorInterface;
 
 public interface IApproximator
 {

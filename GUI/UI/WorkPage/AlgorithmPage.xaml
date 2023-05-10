@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="UI.AlgorithmPage"
+             NavigationPage.HasBackButton="False"
+             NavigationPage.HasNavigationBar="False"
+             Appearing="StartCalculations">
+
+    <ScrollView>
+
+        <AbsoluteLayout Margin="0, 20">
+
+            <Button
+                Text="Назад"
+                Clicked="ToPreviousPage" 
+                AbsoluteLayout.LayoutBounds="-20, 10, 150, 50"/>
+
+            <Frame
+                x:Name="MainFrame"
+                AbsoluteLayout.LayoutBounds="0.5, 0.5, Autosize, Autosize"
+                AbsoluteLayout.LayoutFlags="PositionProportional"
+                WidthRequest="1000"
+                HeightRequest="2400">
+
+                <VerticalStackLayout Spacing="10">
+
+                    <Label 
+                        Text="Результаты"
+                        Margin="0, 0, 0, 20"
+                        FontSize="28" 
+                        HorizontalOptions="Center" />
+
+                    <Label
+                        x:Name="info"
+                        Text="Вычисляю..."
+                        FontSize="20"
+                        HorizontalOptions="Center"/>
+
+                    <Image
+                        x:Name="imagePlace0"/>
+                    <Image
+                        x:Name="imagePlace1"/>
+                    <Image
+                        x:Name="imagePlace2"/>
+                    <Image
+                        x:Name="imagePlace3"/>
+
+                    <HorizontalStackLayout
+                        Spacing="30"
+                        HorizontalOptions="Center"
+                        VerticalOptions="Center">
+
+                        <Button
+                            x:Name="pageRefreshButton"
+                            Text="Обновить"
+                            WidthRequest="300"
+                            HeightRequest="40"
+                            Clicked="UpdateImage"/>
+                    </HorizontalStackLayout>
+
+                </VerticalStackLayout>
+
+            </Frame>
+
+        </AbsoluteLayout>
+    </ScrollView>
+</ContentPage>

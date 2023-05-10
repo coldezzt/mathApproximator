@@ -49,21 +49,45 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <Compile Remove="GraphImages\**" />
+	  <EmbeddedResource Remove="GraphImages\**" />
+	  <MauiCss Remove="GraphImages\**" />
+	  <MauiXaml Remove="GraphImages\**" />
+	  <None Remove="GraphImages\**" />
+	</ItemGroup>
+
+	<ItemGroup>
 		<PackageReference Include="CommunityToolkit.Maui" Version="5.1.0" />
 		<PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="7.0.0" />
+		<PackageReference Include="System.Drawing.Common" Version="7.0.0" />
 	</ItemGroup>
 
 	<ItemGroup>
-	  <MauiXaml Update="Subpages\SettingsPage.xaml">
+	  <MauiXaml Update="SettingsPage\SettingsPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	  <MauiXaml Update="Subpages\AlgorithmPage.xaml">
+	  <MauiXaml Update="WorkPage\AlgorithmPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	</ItemGroup>
 
 	<ItemGroup>
+	  <Folder Include="Gnuplot\" />
 	  <Folder Include="Resources\Fonts\" />
 	</ItemGroup>
+
+	<ItemGroup>
+	  <ProjectReference Include="..\ApproximatorInterface\ApproximatorInterface.csproj" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Compile Update="WorkPage\AlgorithmConfigurationPage.xaml.cs">
+	    <DependentUpon>AlgorithmConfigurationPage.xaml</DependentUpon>
+	  </Compile>
+	</ItemGroup>
+
+	<Target Name="PostBuild" AfterTargets="PostBuildEvent">
+	  <Exec Command="xcopy &quot;$(ProjectDir)Gnuplot&quot; &quot;$(TargetDir)Gnuplot&quot; /s /y /i" />
+	</Target>
 
 </Project>

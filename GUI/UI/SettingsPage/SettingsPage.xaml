@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="UI.SettingsPage"
+             NavigationPage.HasNavigationBar="False"
+             NavigationPage.HasBackButton="False"
+             Appearing="UploadSettings"
+             Disappearing="UpdateSettings">
+
+    <ScrollView>
+
+        <AbsoluteLayout Margin="0, 20">
+
+            <Button
+                Text="Назад"
+                Clicked="ToPreviousPage" 
+                AbsoluteLayout.LayoutBounds="-20, 10, 150, 50"/>
+
+            <Frame
+                x:Name="MainFrame"
+                AbsoluteLayout.LayoutBounds="0.5, 0.5, Autosize, Autosize"
+                AbsoluteLayout.LayoutFlags="PositionProportional">
+
+                <VerticalStackLayout
+                    AbsoluteLayout.LayoutBounds="0.5, 0.5, Autosize, Autosize"
+                    AbsoluteLayout.LayoutFlags="PositionProportional"
+                    HorizontalOptions="Center"
+                    VerticalOptions="Center"
+                    Spacing="30">
+
+                    <Label
+                        Text="Настройки"
+                        FontSize="28"
+                        FontAttributes="Bold"
+                        VerticalOptions="Center"
+                        HorizontalOptions="Center"/>
+
+                    <VerticalStackLayout 
+                        Spacing="20"
+                        HorizontalOptions="Center"
+                        VerticalOptions="Center">
+
+                        <HorizontalStackLayout
+                            Spacing="50"
+                            HorizontalOptions="Center"
+                            VerticalOptions="Center">
+                            
+                            <HorizontalStackLayout
+                                Spacing="20"
+                                HorizontalOptions="Center"
+                                VerticalOptions="Center">
+
+                                <Label
+                                    Text="Тёмная тема"
+                                    FontSize="18"
+                                    HorizontalOptions="Center"
+                                    VerticalOptions="Center"/>
+
+                                <CheckBox
+                                    x:Name="themeCheckBox"
+                                    CheckedChanged="ChangeTheme"/>
+
+                            </HorizontalStackLayout>
+                        
+                            <Button
+                                Text="Инструкция"
+                                Clicked="ToInstructionsPage" 
+                                FontSize="14" />
+                            
+                        </HorizontalStackLayout>
+
+
+                        <VerticalStackLayout Spacing="10">
+
+                            <Label
+                                Text="Путь к библиотеке-интерполятору"
+                                FontSize="18" />
+
+                            <HorizontalStackLayout Spacing="20">
+
+                                <Frame Style="{StaticResource entryFrame}">
+                                    <Entry
+                                        x:Name="libraryPathEntry"
+                                        TextChanged="ChangePathToLibrary"
+                                        WidthRequest="500"
+                                        FontSize="14"
+                                        Placeholder="C:\folder\...\library.dll"/>
+                                </Frame>
+                                
+                                <Button    
+                                    x:Name="libraryPathButton"
+                                    Text="Выбрать файл"
+                                    Clicked="ChangePathToLibrary" />
+
+                            </HorizontalStackLayout>
+
+                            <Label
+                                x:Name="libraryPathWarnLabel"
+                                Text="Пожалуйста, введите корректный путь до файла"
+                                TextColor="Red"
+                                Opacity="0"
+                                FontSize="14"/>
+                        
+                        </VerticalStackLayout>
+
+                        <VerticalStackLayout Spacing="10">
+
+                            <Label
+                                Text="Путь к исполняемому файлу Gnuplot-а (gnuplot.exe)"
+                                FontSize="18"/>
+
+                            <HorizontalStackLayout Spacing="20">
+
+                                <Frame Style="{StaticResource entryFrame}">
+                                    <Entry
+                                        x:Name="gnuplotPathEntry"
+                                        TextChanged="ChangePathToGnuplot"
+                                        WidthRequest="500"
+                                        FontSize="14"
+                                        Placeholder="C:\folder\...\Gnuplot\gnuplot.exe"/>
+                                </Frame>
+
+                                <Button
+                                    x:Name="gnuplotPathButton"
+                                    Text="Выбрать файл"
+                                    Clicked="ChangePathToGnuplot" />
+
+                            </HorizontalStackLayout>
+
+                            <Label
+                                x:Name="gnuplotPathWarnLabel"
+                                Text="Пожалуйста, введите корректный путь до файла"
+                                TextColor="Red"
+                                Opacity="0"
+                                FontSize="14"/>
+                        
+                        </VerticalStackLayout>
+
+                        <VerticalStackLayout Spacing="10">
+
+                            <Label
+                                Text="Путь к скрипту Gnuplot-a"
+                                FontSize="18"/>
+
+                            <HorizontalStackLayout Spacing="20">
+
+                                <Frame Style="{StaticResource entryFrame}">
+                                    <Entry
+                                    x:Name="gnuplotScriptPathEntry"
+                                    TextChanged="ChangePathToGnuplotScript"
+                                    WidthRequest="500"
+                                    FontSize="14"
+                                    Placeholder="C:\folder\...\gnuplot_script.p"/>
+                                </Frame>
+                                
+                                <Button
+                                    x:Name="gnuplotScriptPathButton"
+                                    Text="Выбрать файл"
+                                    Clicked="ChangePathToGnuplotScript" />
+
+                            </HorizontalStackLayout>
+
+                            <Label
+                                x:Name="gnuplotScriptPathWarnLabel"
+                                Text="Пожалуйста, введите корректный путь до файла"
+                                TextColor="Red"
+                                Opacity="0"
+                                FontSize="14"/>
+                        
+                        </VerticalStackLayout>
+
+                        <VerticalStackLayout Spacing="10">
+
+                            <Label
+                                Text="Путь к сохранению фотографий"
+                                FontSize="18"/>
+
+                            <HorizontalStackLayout Spacing="20">
+
+                                <Frame Style="{StaticResource entryFrame}">
+                                    <Entry
+                                        x:Name="photosPathEntry"
+                                        TextChanged="ChangePathToPhotos"
+                                        WidthRequest="500"
+                                        FontSize="14"
+                                        Placeholder="C:\folder\...\Photos"/>
+                                </Frame>
+                                
+                                <Button
+                                    x:Name="photosPathButton"
+                                    Text="Выбрать папку"
+                                    Clicked="ChangePathToPhotos" />
+
+                            </HorizontalStackLayout>
+
+                            <Label
+                                x:Name="photosPathWarnLabel"
+                                Text="Пожалуйста, введите корректный путь до файла"
+                                TextColor="Red"
+                                Opacity="0"
+                                FontSize="14"/>
+
+                        </VerticalStackLayout>
+
+                    </VerticalStackLayout>
+                </VerticalStackLayout>
+            </Frame>
+        </AbsoluteLayout>
+    </ScrollView>
+    
+</ContentPage>

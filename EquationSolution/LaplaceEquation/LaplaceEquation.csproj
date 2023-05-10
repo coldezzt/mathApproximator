@@ -8,7 +8,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="ApproximatorContract" Version="1.0.0" />
+    <PackageReference Include="ApproximatorInterface" Version="1.0.0" />
   </ItemGroup>
 
 </Project>

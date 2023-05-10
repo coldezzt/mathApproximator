@@ -5,15 +5,18 @@
              NavigationPage.HasNavigationBar="False">
 
     <ContentPage.Resources>
-        <Style x:Key="buttonStyle" TargetType="Button">
-            <Setter Property="TextColor" Value="Black" />
-            <Setter Property="CornerRadius" Value="10" />
-            <Setter Property="FontSize" Value="20" />
-            <Setter Property="FontAttributes" Value="Bold" />
+        <Style TargetType="Button">
+            <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource White}, Dark={StaticResource Black}}"/>
+            <Setter Property="BackgroundColor" Value="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource White}}"/>
+            <Setter Property="FontSize" Value="18"/>
+            <Setter Property="FontAttributes" Value="Bold"/>
+            <Setter Property="WidthRequest" Value="300"/>
+            <Setter Property="HeightRequest" Value="50"/>
         </Style>
     </ContentPage.Resources>
-
+    
     <ScrollView>
+        
         <VerticalStackLayout
             Spacing="30"
             Padding="0, 50, 0, 0"
@@ -22,42 +25,25 @@
             Margin="20">
 
             <Label
-                Text="Интерфейс для математических программ"
-                SemanticProperties.HeadingLevel="Level1"
+                Text="Настраиваемый интерполятор"
                 FontSize="36"
-                FontAttributes="Bold" />
+                FontAttributes="Bold">
+            </Label>
 
             <Button
-                Style="{StaticResource buttonStyle}"
-                
                 Text="Начать работу"
-                
-                Clicked="ToWorkingPage"
-                
-                WidthRequest="300"
-                HeightRequest="50"/>
+                Clicked="ToWorkingPage"/>
 
             <Button
-                Style="{StaticResource buttonStyle}"
-                
                 Text="Настройки"
-                
-                Clicked="ToSettingsPage"    
-                
-                WidthRequest="300"
-                HeightRequest="50"/>
-
+                Clicked="ToSettingsPage" />
+            
             <Button
-                Style="{StaticResource buttonStyle}"
-                
                 Text="Выйти"
-                
-                Clicked="Quit"
-   
-                WidthRequest="300"
-                HeightRequest="50"/>
-
+                Clicked="Quit"/>
+            
         </VerticalStackLayout>
+        
     </ScrollView>
 
 </ContentPage>
