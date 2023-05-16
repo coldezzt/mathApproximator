@@ -32,7 +32,7 @@
 
                     <Label
                         x:Name="info"
-                        Text="Вычисляю..."
+                        Text=""
                         FontSize="20"
                         HorizontalOptions="Center"/>
 
@@ -55,6 +55,7 @@
                             Text="Обновить"
                             WidthRequest="300"
                             HeightRequest="40"
+                            IsEnabled="False"
                             Clicked="UpdateImage"/>
                     </HorizontalStackLayout>
 

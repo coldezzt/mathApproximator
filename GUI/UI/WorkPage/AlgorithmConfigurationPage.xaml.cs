@@ -5,11 +5,9 @@ namespace UI;
 
 public partial class AlgorithmConfigurationPage : ContentPage
 {
-	private List<string> possibleExtensions = new List<string>();
+	private readonly List<string> possibleExtensions = new();
+	private readonly Action DataChanged;
 	private bool hasUnsavedChanges = false;
-	private Action DataChanged;
-
-	public static bool IsDataSended = false;
 
 	public AlgorithmConfigurationPage()
 	{
@@ -18,12 +16,11 @@ public partial class AlgorithmConfigurationPage : ContentPage
 		{
 			saveButton.Text = "Сохранить";
 			hasUnsavedChanges = true;
-			IsDataSended = false;
 		};
-		possibleExtensions = GetPossibleExtensions();
+		possibleExtensions = new List<string>() { ".txt" };
 	}
 
-	public async void ToPreviousPage(object sender, EventArgs e)
+    public async void ToPreviousPage(object sender, EventArgs e)
 	{
 		bool accepted;
 		if (hasUnsavedChanges)
@@ -147,7 +144,6 @@ public partial class AlgorithmConfigurationPage : ContentPage
 			&& libraryPathEntry.Text != string.Empty
 			&& libraryPathWarnLabel.Text != null)
 		{
-			IsDataSended = true;
 			SaveAlgorithmSettings(new object(), new EventArgs());
 			await Navigation.PushAsync(new AlgorithmPage());
 		}
@@ -194,9 +190,4 @@ public partial class AlgorithmConfigurationPage : ContentPage
 	{
 		Settings.UpdateConfig();
 	}
-	private List<string> GetPossibleExtensions()
-    {
-		// TODO получение возможных расширений
-        return new List<string>() { ".txt" };
-    }
 }

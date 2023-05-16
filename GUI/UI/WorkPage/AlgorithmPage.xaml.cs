@@ -34,19 +34,19 @@ public partial class AlgorithmPage : ContentPage
             imagePlace2.Source = $@"GraphImages\graph2inverted{dataConfig}.png";
             imagePlace3.Source = $@"GraphImages\graph3inverted{dataConfig}.png";
         }
-        
-        if (CalculationStatus == CalculationStatus.CompletedNotShown)
-            CalculationStatus = CalculationStatus.CompletedShown;
+
+        CalculationStatus = CalculationStatus.CompletedShown;
     }
 
     public async void StartCalculations(object sender, EventArgs e)
     {
-        if (AlgorithmConfigurationPage.IsDataSended &&
-           (CalculationStatus == CalculationStatus.Waiting ||
-            CalculationStatus == CalculationStatus.CompletedShown))
+        info.Text = "Вычисляю...";
+        pageRefreshButton.IsEnabled = false;
+
+        if (CalculationStatus == CalculationStatus.Waiting ||
+            CalculationStatus == CalculationStatus.CompletedShown)
         {
             CalculationStatus = CalculationStatus.Working;
-            pageRefreshButton.IsEnabled = false;
 
             var exitCode = await Task.Run(Calculate);
 
