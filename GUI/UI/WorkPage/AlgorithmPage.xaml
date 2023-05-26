@@ -30,12 +30,6 @@
                         FontSize="28" 
                         HorizontalOptions="Center" />
 
-                    <Label
-                        x:Name="info"
-                        Text=""
-                        FontSize="20"
-                        HorizontalOptions="Center"/>
-
                     <Image
                         x:Name="imagePlace0"/>
                     <Image
@@ -55,7 +49,6 @@
                             Text="Обновить"
                             WidthRequest="300"
                             HeightRequest="40"
-                            IsEnabled="False"
                             Clicked="UpdateImage"/>
                     </HorizontalStackLayout>
 

@@ -40,9 +40,6 @@ public partial class AlgorithmPage : ContentPage
 
     public async void StartCalculations(object sender, EventArgs e)
     {
-        info.Text = "Вычисляю...";
-        pageRefreshButton.IsEnabled = false;
-
         if (CalculationStatus == CalculationStatus.Waiting ||
             CalculationStatus == CalculationStatus.CompletedShown)
         {
@@ -53,7 +50,7 @@ public partial class AlgorithmPage : ContentPage
             if (exitCode == ExitCode.FileError)
             {
                 await DisplayAlert("Ошибка в файле", "Ошибка во время чтения файла. " +
-                        "Проверьте целостность файла.\nНаправляю на страницу с " +"конфигурацией.", "Ок");
+                        "Проверьте целостность файла.\nНаправляю на страницу с " + "конфигурацией.", "Ок");
                 await Navigation.PopAsync();
             }
             else if (exitCode == ExitCode.LibraryError)
@@ -66,16 +63,15 @@ public partial class AlgorithmPage : ContentPage
             }
             else
             {
-                info.Text = "Результаты готовы";
                 pageRefreshButton.IsEnabled = true;
                 CalculationStatus = CalculationStatus.CompletedNotShown;
             }
         }
         else if (CalculationStatus == CalculationStatus.CompletedNotShown)
-        {
-            info.Text = "Результаты готовы";
             pageRefreshButton.IsEnabled = true;
-        }
+
+        else if (CalculationStatus == CalculationStatus.Working)
+            pageRefreshButton.IsEnabled = false;
     }
 
     private ExitCode Calculate()
