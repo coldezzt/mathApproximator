@@ -43,6 +43,7 @@ public partial class AlgorithmPage : ContentPage
         if (CalculationStatus == CalculationStatus.Waiting ||
             CalculationStatus == CalculationStatus.CompletedShown)
         {
+            pageRefreshButton.IsEnabled = false;
             CalculationStatus = CalculationStatus.Working;
 
             var exitCode = await Task.Run(Calculate);
